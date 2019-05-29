@@ -1,12 +1,42 @@
 public class MinesweeperTIO {
-  private String str;
+  private char[][] img;
   private square[][] game;
 
   public MinesweeperTIO(int r, int c){
-    str = "";
+    img = new char[r][c];
     game = new square[r][c];
+    
+    for(int row = 0; row < img.length; row++){
+      for(int col = 0; col < img[row].length; col++){
+        img[row][col] = 'x';
+      }
+    }
   }
   
+  public void dig(int r, int c){
+    if(game[r][c].getDisplay == 100){
+      System.out.println("GAME OVER");
+      
+    } else if(game[r][c].getDisplay < 0){
+      System.out.println("Already dug up");
+      
+    } else {
+      game[r][c].dig();
+    }
+  }
   
+  public String print(){
+    String str = "  ";
+    for(int i = 0; i < img[0].length; i++){
+      str += i + " ";
+    }
+    for(int j = 0; j < img.length; j++){
+      str += j + " ";
+      for(char c:img[j]){
+        str += c + " ";
+      }
+      str += "\n";
+    }
+  }
 
 }
