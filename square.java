@@ -1,6 +1,7 @@
 /**
  * Represents a general square on the game board.
  *
+ * This is the Github remote version of code.
  * @author Jerry Xu
  * @author 20jxu@westfordk12.us
  * @version 1.0
