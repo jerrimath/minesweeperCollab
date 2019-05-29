@@ -1,3 +1,5 @@
+package minesweeperCollab;
+
 /**
  * Represents a general square on the game board.
  *
