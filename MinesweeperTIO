@@ -1,5 +1,12 @@
 public class MinesweeperTIO {
   private String str;
+  private square[][] game;
+
+  public MinesweeperTIO(int r, int c){
+    str = "";
+    game = new square[r][c];
+  }
+  
   
 
 }
