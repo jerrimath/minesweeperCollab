@@ -4,7 +4,7 @@
  * This is the Github remote version of code.
  * @author Jerry Xu
  * @author 20jxu@westfordk12.us
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 public class square {
@@ -30,6 +30,8 @@ public class square {
 		quickCleared = false;
 	}
 
+	//Operations
+
 	/**
 	 * Flips the status of the marked mine
 	 * I.e. a marked mine becomes unmarked, and an unmarked mine becomes marked.
@@ -50,9 +52,10 @@ public class square {
 		dugUp = true;
 	}
 
+	//Operation instruction
+
 	/**
-	 * "Digs up" a square
-	 * This method can only be invoked once on a given square, safety checks within the game
+	 * Quick clears a square if the mines around it have been all marked.
 	 * will make sure of that.
 	 * @param marked Number of marked mines around given square
 	 * @return Returns whether the quick clear operation should be run or not
@@ -65,8 +68,11 @@ public class square {
 		return false;
 	}
 
+	//Accessors
+
 	/** Chooses image for display
 	 * This method tells the game what image should be displayed on the square.
+	 * This method should also be used for determining valid dig operations.
 	 * @return The number of mines surrounding for if it isn't a mine (0-8), or undug up (-1) or a mine (100) If exploded, return 1000
 	 */
 	public int getDisplay(){
@@ -77,5 +83,14 @@ public class square {
 
 	}
 
+	/** Floodfill helper
+	 * Introduced v1.1 on a whim
+	 * Safety; please use the dig operation for empty squares. Probably will be deprecated soon.
+	 * This method tells the game what squares to move to for automatic dig operation floodfill.
+	 * @return If this is a square that has been not dug up and is not surrounded by any mines.
+	 */
+	public boolean isEmpty(){
+		return !dugUp && minesAround == 0;
+	}
 
 }
