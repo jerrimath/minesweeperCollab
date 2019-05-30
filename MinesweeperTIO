@@ -9,6 +9,7 @@ public class MinesweeperTIO {
     for(int row = 0; row < img.length; row++){
       for(int col = 0; col < img[row].length; col++){
         img[row][col] = 'x';
+        square[row][col] = new square
       }
     }
   }
