@@ -1,12 +1,6 @@
 import java.util.ArrayList;
 
-/** Need:
- * Randomize bombs
- * Click events/clear space
- * End game
- * 
- * 
- * */
+
 public class Game {
 	private int horSize;
 	private int verSize;
