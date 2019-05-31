@@ -147,6 +147,12 @@ public class game {
 		}
 	}
 
+	/**
+	 * Floodfill opens up all the adjacent squares which are empty.
+	 *
+	 * @param x The initial x-position clicked
+	 * @param y The initial y-position clicked
+	 */
 	private void floodfill(int x, int y) {// method to floodfill to all squares adjacent
 		gameBoard[x][y].dig();
 
