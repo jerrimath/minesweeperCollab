@@ -1,43 +1,28 @@
-public class MinesweeperTIO {
-  private char[][] img;
-  private square[][] game;
+package minesweeperCollab;
+import TerminalIO.KeyboardReader;
 
-  public MinesweeperTIO(int r, int c){
-    img = new char[r][c];
-    game = new square[r][c];
-    
-    for(int row = 0; row < img.length; row++){
-      for(int col = 0; col < img[row].length; col++){
-        img[row][col] = 'x';
-        square[row][col] = new square
-      }
-    }
-  }
-  
-  public void dig(int r, int c){
-    if(game[r][c].getDisplay == 100){
-      System.out.println("GAME OVER");
-      
-    } else if(game[r][c].getDisplay < 0){
-      System.out.println("Already dug up");
-      
-    } else {
-      game[r][c].dig();
-    }
-  }
-  
-  public String print(){
-    String str = "  ";
-    for(int i = 0; i < img[0].length; i++){
-      str += i + " ";
-    }
-    for(int j = 0; j < img.length; j++){
-      str += j + " ";
-      for(char c:img[j]){
-        str += c + " ";
-      }
-      str += "\n";
-    }
-  }
+public class MinesweeperTIO {
+	
+	private Game game;
+	private KeyboardReader reader;
+	
+	public MinesweeperTIO() {
+		int dim1 = reader.readInt("Dimension 1: ");
+		int dim2 = reader.readInt("Dimension 2: ");
+		int numMines = reader.readInt("Number of mines: ");
+		int xCor = reader.readInt("x: ");
+		int yCor = reader.readInt("y: ");
+		while(!(dim1 > 0 && dim2 > 0 && numMines > 0 && xCor >= 0 && xCor < dim1
+				&& yCor >= 0 && yCor < dim2)) {
+			System.out.println("Error: please enter valid parameters");
+		}
+		game = new Game(dim1, dim2, numMines, xCor, yCor);
+	}
+	
+	public static void main(String[] args) {
+		MinesweeperTIO sweep = new MinesweeperTIO();
+		
+
+	}
 
 }
