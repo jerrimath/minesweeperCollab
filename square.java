@@ -6,7 +6,7 @@ package minesweeperCollab;
  * This is the Github remote version of code.
  * @author Jerry Xu
  * @author 20jxu@westfordk12.us
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public class square {
@@ -90,6 +90,7 @@ public class square {
 	 * Safety; please use the dig operation for empty squares. Probably will be deprecated soon.
 	 * This method tells the game what squares to move to for automatic dig operation floodfill.
 	 * @return If this is a square that has been not dug up and is not surrounded by any mines.
+	 * @deprecated
 	 */
 	public boolean isEmpty(){
 		return !dugUp && minesAround == 0;
