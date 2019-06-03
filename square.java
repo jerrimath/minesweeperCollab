@@ -75,7 +75,7 @@ public class square {
 	/** Chooses image for display
 	 * This method tells the game what image should be displayed on the square.
 	 * This method should also be used for determining valid dig operations.
-	 * @return The number of mines surrounding for if it isn't a mine (0-8), or undug up (-1) or a mine (100) If exploded, return 1000
+	 * @return The number of mines surrounding for if it isn't a mine (0-8), or undug up (-1) or a marked mine (100) If exploded, return 1000
 	 */
 	public int getDisplay(){
 		if (dugUp && isMine) return 1000;

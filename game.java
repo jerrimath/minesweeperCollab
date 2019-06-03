@@ -153,7 +153,7 @@ public class game {
 	 * @param x The initial x-position clicked
 	 * @param y The initial y-position clicked
 	 */
-	private void floodfill(int x, int y) {// method to floodfill to all squares adjacent
+	private void floodfill(int x, int y) {
 		gameBoard[x][y].dig();
 
 		if (gameBoard[x][y].getDisplay() != 0)
@@ -169,17 +169,61 @@ public class game {
 		}
 	}
 
-	private void clearSquares(int x, int y) {// deals with opening of squares
+	/** Clear Square helper
+	 * @param x x-location of square to dig up
+	 * @param y y-location of square to dig up
+	 * @return Game status
+	 */
+	private int clearSquares(int x, int y) {
 		if (gameBoard[x][y].getDisplay() == -1) {
 			floodfill(x, y);
+			return 0;
 		}
+		//quickClear determination
+		int surround = 0;
+		for(int xOffset = -1; xOffset <= 1; xOffset++){
+			for(int yOffset = -1; yOffset <= 1; yOffset++){
+				int posX = x+xOffset;
+				int posY = y+yOffset;
+				if(posX < 0 || posX > xSize) continue;
+				if(posY < 0 || posY > ySize) continue;
+
+				if (gameBoard[posX][posY].getDisplay() == 100) surround++;
+			}
+		}
+		if(gameBoard[x][y].quickClear(surround)){
+			for(int xOffset = -1; xOffset <= 1; xOffset++){
+				for(int yOffset = -1; yOffset <= 1; yOffset++){
+					int posX = x+xOffset;
+					int posY = y+yOffset;
+					if(posX < 0 || posX > xSize) continue;
+					if(posY < 0 || posY > ySize) continue;
+
+					if (gameBoard[posX][posY].getDisplay() == -1){
+						if(gameState(posX, posY, false) == -1) return -1;
+						if(gameState(posX, posY, false) == 1) return 1;
+					}
+				}
+			}
+		}
+		return 0;
 	}
 
-	private void mark(int x, int y) {// marks square
+	/** Mark Square helper
+	 * @param x x-location of square to mark
+	 * @param y y-location of square to mark
+	 * @deprecated
+	 */
+	private void mark(int x, int y) {
 		gameBoard[x][y].mark();
 	}
 
-	private boolean win() {// checks if user has won
+
+	/** Win checker
+	 * Checks for the win-condition based on if all square have been dug up
+	 * or if all mines have been flagged
+	 */
+	private boolean win() {
 		int numFlagged = 0;
 		for (int i = 0; i < xSize; i++) {
 			for (int j = 0; j < ySize; j++) {
@@ -196,27 +240,54 @@ public class game {
 		return false;
 	}
 
-	public int getNumberAround(int x, int y) {//return the number of mines around square
+	/** Display v1
+	 * @param x the x-coordinate of the position display to be retrieved
+	 * @param y the y-coordinate of the position display to be retrieved
+	 * @return the display value for the given square.
+	 * @deprecated
+	 */
+	public int getNumberAround(int x, int y) {
 		return gameBoard[x][y].getDisplay();
 	}
 
-	public int gameState(int clickX, int clickY, boolean mark) {//method to be used by the GUI in game
-		if (!mark) {// if turn is to open new square
-			if (mine[clickX][clickY]) {// player loses
+	/** Display v2
+	 * @return a two-dimensional array representing the display values for the entire gameboard.
+	 */
+	public int[][] getDisplay(){
+		int[][] retVal = new int[xSize][ySize];
+		for(int xCoord = 0; xCoord < xSize; xCoord++){
+			for(int yCoord = 0; yCoord < ySize; yCoord++){
+				retVal[xCoord][yCoord] = gameBoard[xCoord][yCoord].getDisplay();
+			}
+		}
+		return retVal;
+	}
+
+	/** Get Game State
+	 * @param clickX x-coordinate of the clicked square
+	 * @param clickY y-coordinate of the clicked square
+	 * @param mark   digging up a square or marking a square?
+	 * @return -1 if the game has been lost; 0 if the game is ongoing, 1 if the game wins.
+	 */
+	public int gameState(int clickX, int clickY, boolean mark) {
+		//dig up new square
+		if (!mark) {
+			// player loses
+			if (mine[clickX][clickY]) {
 				return -1;
 			} else {
-				clearSquares(clickX, clickY);
+				return clearSquares(clickX, clickY);
 			}
 
-		} else {// if turn is to mark mine
-			mark(clickX, clickY);
+			// if turn is to mark mine
+		} else {
+			gameBoard[clickX][clickY].mark();
 		}
 
 		if (win())// win
 			return 1;
 
 		return 0;
-
 
 	}
 
