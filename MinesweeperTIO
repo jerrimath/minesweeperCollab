@@ -1,14 +1,31 @@
 package minesweeperCollab;
-import TerminalIO.KeyboardReader;
 
+import java.util.Scanner;
+//import TerminalIO.KeyboardReader;
+
+/**
+ * TerminalIO to verify game functionality.
+ *
+ * @author Claire Shea
+ * @author 20cshea@westfordk12.us
+ * @author Jerry Xu
+ * @author 20jxu@westfordk12.us
+ * @version 1.2
+ * @since 1.1
+ */
 public class MinesweeperTIO {
-	
-	private Game game;
-	private KeyboardReader reader;
-	
+
+	public static game Game;
+	public static int xdim = 0;
+	public static int ydim = 0;
+	public static Scanner sc = new Scanner(System.in);
+	//private KeyboardReader reader;
+
 	public MinesweeperTIO() {
-		int dim1 = reader.readInt("Dimension 1: ");
-		int dim2 = reader.readInt("Dimension 2: ");
+
+		/*
+		int xdim = reader.readInt("Dimension 1: ");
+		int ydim = reader.readInt("Dimension 2: ");
 		int numMines = reader.readInt("Number of mines: ");
 		int xCor = reader.readInt("x: ");
 		int yCor = reader.readInt("y: ");
@@ -16,13 +33,151 @@ public class MinesweeperTIO {
 				&& yCor >= 0 && yCor < dim2)) {
 			System.out.println("Error: please enter valid parameters");
 		}
-		game = new Game(dim1, dim2, numMines, xCor, yCor);
-	}
-	
-	public static void main(String[] args) {
-		MinesweeperTIO sweep = new MinesweeperTIO();
-		
+		 */
 
+
+		xdim = 0;
+		ydim = 0;
+		int numMines = 0;
+		boolean firstTime = true;
+
+		do {
+			try {
+				if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
+				firstTime = false;
+
+				System.out.print("X-Dimension of Game Board: ");
+				xdim = sc.nextInt();
+				System.out.print("Y-Dimension of Game Board: ");
+				ydim = sc.nextInt();
+				System.out.print("Number of mines on Game Board: ");
+				numMines = sc.nextInt();
+
+			} catch (Exception e) {
+				System.out.println("Invalid number entered.");
+				continue;
+			}
+		} while (xdim <= 0 || xdim >= 100 || ydim <= 0 || ydim >= 100 || numMines <= 0 || numMines >= xdim * ydim);
+
+		int xStart = -1;
+		int yStart = -1;
+		firstTime = true;
+		do {
+			try {
+				if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
+				firstTime = false;
+
+				System.out.print("X-Dimension of Start Position: ");
+				xStart = sc.nextInt();
+				System.out.print("Y-Dimension of Start Position: ");
+				yStart = sc.nextInt();
+
+			} catch (Exception e) {
+				System.out.println("Invalid number entered.");
+				continue;
+			}
+		} while (xStart < 0 || xStart > xdim || yStart < 0 || yStart > ydim);
+
+	}
+
+	public static String printBoard() {
+		int xSize = Game.getDisplay().length;
+		int ySize = Game.getDisplay()[0].length;
+		String retVal = "\\x|";
+		for (int tens = 1; tens <= xSize; tens++) {
+			retVal += " " + Integer.toString(tens / 10);
+		}
+		retVal += "\ny\\|";
+		for (int ones = 1; ones <= xSize; ones++) {
+			retVal += " " + Integer.toString(ones % 10);
+		}
+		retVal += "\n--+-";
+		for (int xs = 1; xs <= xSize; xs++) {
+			retVal += "--";
+		}
+		for (int ys = 1; ys <= ySize; ys++) {
+			retVal += "\n" + Integer.toString(ys / 10) + Integer.toString(ys % 10) + "|";
+			for (int xs = 1; xs <= xSize; xs++) {
+				retVal += " ";
+				int status = Game.getDisplay()[xs - 1][ys - 1];
+				if (status == 0) retVal += " ";
+				else if (1 <= status && status <= 8) retVal += Integer.toString(status);
+				else if (status == -1) retVal += "#";
+				else if (status == 100) retVal += "^";
+				else if (status == 1000) retVal += "*";
+			}
+		}
+
+		/*
+		\x| 1 2 3 4 5 6 7 8 9 0 1
+		y\| 0 0 0 0 0 0 0 0 0 1 1
+		--+----------------------
+		01|
+		02|
+		03|
+		04|
+		05|
+		06|
+		07|
+		08|
+		09|
+		10|
+		 */
+		return retVal;
+	}
+
+	public static void main(String[] args) {
+		int statusTrigger = 0;
+		do {
+			try {
+				System.out.print("Enter -1 to quit: ");
+				statusTrigger = sc.nextInt();
+			} catch (Exception e) {
+				System.out.println("Invalid number entered.");
+				continue;
+			}
+			MinesweeperTIO sweep = new MinesweeperTIO();
+			int status = 0;
+			do {
+				boolean firstTime = false;
+				int xCoord = -1;
+				int yCoord = -1;
+				boolean toMark = false;
+				do {
+					try {
+						if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
+						firstTime = false;
+
+						System.out.print("X-Location of operation: ");
+						xCoord = sc.nextInt();
+						System.out.print("Y-Location of operation: ");
+						yCoord = sc.nextInt();
+						System.out.print("Operation (0 to dig, 1 to mark): ");
+						int tempMark = sc.nextInt();
+						if (tempMark != 0 && tempMark != 1) {
+							throw new Exception();
+						} else if (tempMark == 0) toMark = false;
+						else if (tempMark == 1) toMark = true;
+
+					} catch (Exception e) {
+						System.out.println("Invalid number entered.");
+						continue;
+					}
+				} while (xCoord <= 0 || xCoord > sweep.xdim || yCoord <= 0 || yCoord > sweep.ydim);
+
+				status = sweep.Game.gameState(xCoord, yCoord, toMark);
+				sweep.printBoard();
+
+			} while (status == 0);
+			if (status == -1) {
+				printBoard();
+				System.out.println("You lose :(");
+			} else if (status == 1) {
+				printBoard();
+				System.out.println("You win! :)");
+			}
+
+		} while (statusTrigger != -1);
 	}
 
 }

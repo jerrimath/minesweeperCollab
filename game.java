@@ -251,6 +251,7 @@ public class game {
 	}
 
 	/** Display v2
+	 * Values: The number of mines surrounding for if it isn't a mine (0-8), or undug up (-1) or a marked mine (100) If exploded, return 1000
 	 * @return a two-dimensional array representing the display values for the entire gameboard.
 	 */
 	public int[][] getDisplay(){
