@@ -10,77 +10,12 @@ import java.util.Scanner;
  * @author 20cshea@westfordk12.us
  * @author Jerry Xu
  * @author 20jxu@westfordk12.us
- * @version 1.2
+ * @version 1.3
  * @since 1.1
  */
 public class MinesweeperTIO {
 
-	public static game Game;
-	public static int xdim = 0;
-	public static int ydim = 0;
-	public static Scanner sc = new Scanner(System.in);
-	//private KeyboardReader reader;
-
-	public MinesweeperTIO() {
-
-		/*
-		int xdim = reader.readInt("Dimension 1: ");
-		int ydim = reader.readInt("Dimension 2: ");
-		int numMines = reader.readInt("Number of mines: ");
-		int xCor = reader.readInt("x: ");
-		int yCor = reader.readInt("y: ");
-		while(!(dim1 > 0 && dim2 > 0 && numMines > 0 && xCor >= 0 && xCor < dim1
-				&& yCor >= 0 && yCor < dim2)) {
-			System.out.println("Error: please enter valid parameters");
-		}
-		 */
-
-
-		xdim = 0;
-		ydim = 0;
-		int numMines = 0;
-		boolean firstTime = true;
-
-		do {
-			try {
-				if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
-				firstTime = false;
-
-				System.out.print("X-Dimension of Game Board: ");
-				xdim = sc.nextInt();
-				System.out.print("Y-Dimension of Game Board: ");
-				ydim = sc.nextInt();
-				System.out.print("Number of mines on Game Board: ");
-				numMines = sc.nextInt();
-
-			} catch (Exception e) {
-				System.out.println("Invalid number entered.");
-				continue;
-			}
-		} while (xdim <= 0 || xdim >= 100 || ydim <= 0 || ydim >= 100 || numMines <= 0 || numMines >= xdim * ydim);
-
-		int xStart = -1;
-		int yStart = -1;
-		firstTime = true;
-		do {
-			try {
-				if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
-				firstTime = false;
-
-				System.out.print("X-Dimension of Start Position: ");
-				xStart = sc.nextInt();
-				System.out.print("Y-Dimension of Start Position: ");
-				yStart = sc.nextInt();
-
-			} catch (Exception e) {
-				System.out.println("Invalid number entered.");
-				continue;
-			}
-		} while (xStart < 0 || xStart > xdim || yStart < 0 || yStart > ydim);
-
-	}
-
-	public static String printBoard() {
+	public static String printBoard(game Game) {
 		int xSize = Game.getDisplay().length;
 		int ySize = Game.getDisplay()[0].length;
 		String retVal = "\\x|";
@@ -127,6 +62,7 @@ public class MinesweeperTIO {
 	}
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		int statusTrigger = 0;
 		do {
 			try {
@@ -136,10 +72,53 @@ public class MinesweeperTIO {
 				System.out.println("Invalid number entered.");
 				continue;
 			}
-			MinesweeperTIO sweep = new MinesweeperTIO();
+
+			int xdim = 0;
+			int ydim = 0;
+			int numMines = 0;
+			boolean firstTime = true;
+
+			do {
+				try {
+					if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
+					firstTime = false;
+
+					System.out.print("X-Dimension of Game Board: ");
+					xdim = sc.nextInt();
+					System.out.print("Y-Dimension of Game Board: ");
+					ydim = sc.nextInt();
+					System.out.print("Number of mines on Game Board: ");
+					numMines = sc.nextInt();
+
+				} catch (Exception e) {
+					System.out.println("Invalid number entered.");
+					continue;
+				}
+			} while (xdim <= 0 || xdim >= 100 || ydim <= 0 || ydim >= 100 || numMines <= 0 || numMines >= xdim * ydim);
+
+			int xStart = -1;
+			int yStart = -1;
+			firstTime = true;
+			do {
+				try {
+					if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
+					firstTime = false;
+
+					System.out.print("X-Dimension of Start Position: ");
+					xStart = sc.nextInt();
+					System.out.print("Y-Dimension of Start Position: ");
+					yStart = sc.nextInt();
+
+				} catch (Exception e) {
+					System.out.println("Invalid number entered.");
+					continue;
+				}
+			} while (xStart < 0 || xStart > xdim || yStart < 0 || yStart > ydim);
+
+			game Game = new game(xdim, ydim, numMines, xStart, yStart);
 			int status = 0;
 			do {
-				boolean firstTime = false;
+				firstTime = true;
 				int xCoord = -1;
 				int yCoord = -1;
 				boolean toMark = false;
@@ -163,17 +142,17 @@ public class MinesweeperTIO {
 						System.out.println("Invalid number entered.");
 						continue;
 					}
-				} while (xCoord <= 0 || xCoord > sweep.xdim || yCoord <= 0 || yCoord > sweep.ydim);
+				} while (xCoord <= 0 || xCoord > xdim || yCoord <= 0 || yCoord > ydim);
 
-				status = sweep.Game.gameState(xCoord, yCoord, toMark);
-				sweep.printBoard();
+				status = Game.gameState(xCoord, yCoord, toMark);
+				System.out.println(printBoard(Game));
 
 			} while (status == 0);
 			if (status == -1) {
-				printBoard();
+				System.out.println(printBoard(Game));
 				System.out.println("You lose :(");
 			} else if (status == 1) {
-				printBoard();
+				System.out.println(printBoard(Game));
 				System.out.println("You win! :)");
 			}
 
