@@ -51,7 +51,7 @@ public class square {
 	 * will make sure of that.
 	 */
 	public void dig() {
-		dugUp = true;
+		if (!markMine) dugUp = true;
 	}
 
 	//Operation instruction

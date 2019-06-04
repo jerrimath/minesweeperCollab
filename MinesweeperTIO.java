@@ -94,7 +94,7 @@ public class MinesweeperTIO {
 					System.out.println("Invalid number entered.");
 					continue;
 				}
-			} while (xdim <= 0 || xdim >= 100 || ydim <= 0 || ydim >= 100 || numMines <= 0 || numMines >= xdim * ydim);
+			} while (xdim <= 4 || xdim >= 100 || ydim <= 4 || ydim >= 100 || numMines <= 0 || numMines >= xdim * ydim);
 
 			int xStart = -1;
 			int yStart = -1;

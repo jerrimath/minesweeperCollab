@@ -104,8 +104,8 @@ public class game {
 
 		//Generate square locations
 		for (int i = 0; i < numMines; i++) {
-			int xVal = (int) (((double)(xSize + 1)) * Math.random());
-			int yVal = (int) (((double)(ySize + 1)) * Math.random());
+			int xVal = (int) (((double)(xSize)) * Math.random());
+			int yVal = (int) (((double)(ySize)) * Math.random());
 			Point pos = findNext(xVal, yVal);
 			mine[pos.x][pos.y] = true;
 			used[pos.x][pos.y] = true;
@@ -199,9 +199,10 @@ public class game {
 				for(int yOffset = -1; yOffset <= 1; yOffset++){
 					int posX = x+xOffset;
 					int posY = y+yOffset;
-					if(posX < 0 || posX > xSize) continue;
-					if(posY < 0 || posY > ySize) continue;
+					if(posX < 0 || posX >= xSize) continue;
+					if(posY < 0 || posY >= ySize) continue;
 
+					floodfill(posX, posY);
 					if (gameBoard[posX][posY].getDisplay() == -1){
 						if(gameState(posX, posY, false) == -1) return -1;
 						if(gameState(posX, posY, false) == 1) return 1;
