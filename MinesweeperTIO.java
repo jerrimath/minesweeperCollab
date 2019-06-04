@@ -115,7 +115,10 @@ public class MinesweeperTIO {
 				}
 			} while (xStart < 0 || xStart > xdim || yStart < 0 || yStart > ydim);
 
-			game Game = new game(xdim, ydim, numMines, xStart, yStart);
+			game Game = new game(xdim, ydim, numMines, xStart - 1, yStart - 1);
+
+			System.out.println(printBoard(Game));
+
 			int status = 0;
 			do {
 				firstTime = true;
@@ -144,15 +147,13 @@ public class MinesweeperTIO {
 					}
 				} while (xCoord <= 0 || xCoord > xdim || yCoord <= 0 || yCoord > ydim);
 
-				status = Game.gameState(xCoord, yCoord, toMark);
+				status = Game.gameState(xCoord - 1, yCoord - 1, toMark);
 				System.out.println(printBoard(Game));
 
 			} while (status == 0);
 			if (status == -1) {
-				System.out.println(printBoard(Game));
 				System.out.println("You lose :(");
 			} else if (status == 1) {
-				System.out.println(printBoard(Game));
 				System.out.println("You win! :)");
 			}
 

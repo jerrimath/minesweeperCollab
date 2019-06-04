@@ -56,6 +56,8 @@ public class game {
 		//Information hiding
 		used = null;
 		mine = null;
+
+		int throwAway = gameState(initX, initY, false);
 	}
 
 	/**
@@ -67,9 +69,9 @@ public class game {
 	 */
 	private Point findNext(int x, int y) { //finds next available location
 		while (used[x][y]) {
-			if (x == xSize - 1) {
-				if (y == ySize - 1) {
-					x = 0;
+			if (x >= xSize - 1) {
+				x = 0;
+				if (y >= ySize - 1) {
 					y = 0;
 				} else {
 					y++;
@@ -102,8 +104,8 @@ public class game {
 
 		//Generate square locations
 		for (int i = 0; i < numMines; i++) {
-			int xVal = (int) ((xSize + 1) * Math.random());
-			int yVal = (int) ((ySize + 1) * Math.random());
+			int xVal = (int) (((double)(xSize + 1)) * Math.random());
+			int yVal = (int) (((double)(ySize + 1)) * Math.random());
 			Point pos = findNext(xVal, yVal);
 			mine[pos.x][pos.y] = true;
 			used[pos.x][pos.y] = true;
@@ -132,9 +134,9 @@ public class game {
 				for (int xOffset = -1; xOffset < 2; xOffset++) {
 					for (int yOffset = -1; yOffset < 2; yOffset++) {
 						//Calculate the mines around it; not consideration if the mine is
-						if (xOffset == 0 || yOffset == 0)
+						if (xOffset == 0 && yOffset == 0)
 							continue;
-						if (x + xOffset < xSize && x + xOffset >= 0 && y + yOffset < ySize && y + yOffset >= 0 && mine[x][y]) {
+						if (x + xOffset < xSize && x + xOffset >= 0 && y + yOffset < ySize && y + yOffset >= 0 && mine[x + xOffset][y + yOffset]) {
 							counter++;
 						}
 
@@ -177,6 +179,7 @@ public class game {
 	private int clearSquares(int x, int y) {
 		if (gameBoard[x][y].getDisplay() == -1) {
 			floodfill(x, y);
+			if (gameBoard[x][y].getDisplay() == 1000) return -1;
 			return 0;
 		}
 		//quickClear determination
@@ -185,8 +188,8 @@ public class game {
 			for(int yOffset = -1; yOffset <= 1; yOffset++){
 				int posX = x+xOffset;
 				int posY = y+yOffset;
-				if(posX < 0 || posX > xSize) continue;
-				if(posY < 0 || posY > ySize) continue;
+				if(posX < 0 || posX >= xSize) continue;
+				if(posY < 0 || posY >= ySize) continue;
 
 				if (gameBoard[posX][posY].getDisplay() == 100) surround++;
 			}
@@ -274,11 +277,9 @@ public class game {
 		//dig up new square
 		if (!mark) {
 			// player loses
-			if (mine[clickX][clickY]) {
-				return -1;
-			} else {
-				return clearSquares(clickX, clickY);
-			}
+			int status  = clearSquares(clickX, clickY);
+
+			return status;
 
 			// if turn is to mark mine
 		} else {
