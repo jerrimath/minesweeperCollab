@@ -41,6 +41,7 @@ public class square {
 	 * @return A boolean signaling the new status of the marking of the square.
 	 */
 	public boolean mark() {
+		if(dugUp = true) return false;
 		markMine = !markMine;
 		return markMine;
 	}
@@ -63,7 +64,7 @@ public class square {
 	 * @return Returns whether the quick clear operation should be run or not
 	 */
 	public boolean quickClear(int marked) {
-		if (marked > minesAround && !quickCleared) {
+		if (marked >= minesAround && !quickCleared) {
 			quickCleared = true;
 			return true;
 		}

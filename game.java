@@ -279,7 +279,7 @@ public class game {
 		if (!mark) {
 			// player loses
 			int status  = clearSquares(clickX, clickY);
-			
+
 			if (win())// win
 				return 1;
 			return status;

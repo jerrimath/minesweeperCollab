@@ -66,10 +66,15 @@ public class MinesweeperTIO {
 		int statusTrigger = 0;
 		do {
 			try {
-				System.out.print("Enter -1 to quit: ");
+				System.out.print("Enter -1 to quit, anything else to continue: ");
 				statusTrigger = sc.nextInt();
+				if(statusTrigger == -1){
+					System.out.println("Program ending...");
+					System.exit(0);
+				}
 			} catch (Exception e) {
 				System.out.println("Invalid number entered.");
+				sc = new Scanner(System.in);
 				continue;
 			}
 
