@@ -103,7 +103,7 @@ public class MinesweeperTIO {
 				try {
 					if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
 					firstTime = false;
-
+					sc = new Scanner(System.in);
 					System.out.print("X-Dimension of Start Position: ");
 					xStart = sc.nextInt();
 					System.out.print("Y-Dimension of Start Position: ");
@@ -130,6 +130,7 @@ public class MinesweeperTIO {
 						if (!firstTime) System.out.println("One of your parameters was incorrect. Please try again");
 						firstTime = false;
 
+						sc = new Scanner(System.in);
 						System.out.print("X-Location of operation: ");
 						xCoord = sc.nextInt();
 						System.out.print("Y-Location of operation: ");
