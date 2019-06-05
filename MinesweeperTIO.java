@@ -68,7 +68,7 @@ public class MinesweeperTIO {
 			try {
 				System.out.print("Enter -1 to quit, anything else to continue: ");
 				statusTrigger = sc.nextInt();
-				if(statusTrigger == -1){
+				if (statusTrigger == -1) {
 					System.out.println("Program ending...");
 					System.exit(0);
 				}
@@ -99,7 +99,7 @@ public class MinesweeperTIO {
 					System.out.println("Invalid number entered.");
 					continue;
 				}
-			} while (xdim <= 4 || xdim >= 100 || ydim <= 4 || ydim >= 100 || numMines <= 0 || numMines >= xdim * ydim);
+			} while (xdim <= 4 || xdim >= 40 || ydim <= 4 || ydim >= 30 || numMines <= 0 || numMines >= xdim * ydim);
 
 			int xStart = -1;
 			int yStart = -1;
@@ -118,7 +118,7 @@ public class MinesweeperTIO {
 					System.out.println("Invalid number entered.");
 					continue;
 				}
-			} while (xStart < 0 || xStart > xdim || yStart < 0 || yStart > ydim);
+			} while (xStart <= 0 || xStart > xdim || yStart <= 0 || yStart > ydim);
 
 			game Game = new game(xdim, ydim, numMines, xStart - 1, yStart - 1);
 
