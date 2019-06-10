@@ -10,7 +10,9 @@ import java.util.Scanner;
  * @author 20cshea@westfordk12.us
  * @author Jerry Xu
  * @author 20jxu@westfordk12.us
- * @version 1.3
+ * @author Ethan Mendes
+ * @author 20emendes@westfordk12.us
+ * @version 1.4
  * @since 1.1
  */
 public class MinesweeperTIO {
@@ -67,8 +69,8 @@ public class MinesweeperTIO {
 			int statusTrigger = 0;
 			do {
 				try {
-					System.out.print("Enter -1 to quit, anything else to continue: ");
-					statusTrigger = sc.nextInt();
+					System.out.print("Enter -1 to quit, any other integer to continue: ");
+					statusTrigger = Integer.parseInt(sc.next());
 					if (statusTrigger == -1) {
 						System.out.println("Program ending...");
 						System.exit(0);
