@@ -1,5 +1,6 @@
 package minesweeperCollab;
 
+
 import java.awt.*;
 
 /**
@@ -179,7 +180,14 @@ public class game {
 	private int clearSquares(int x, int y) {
 		if (gameBoard[x][y].getDisplay() == -1) {
 			floodfill(x, y);
-			if (gameBoard[x][y].getDisplay() == 1000) return -1;
+			if (gameBoard[x][y].getDisplay() == 1000) { 
+				for(int i = 0; i<xSize; i++) {
+					for(int j = 0; j<ySize; j++) {
+						gameBoard[i][j].dig();
+					}
+				}
+				return -1;
+			}
 			return 0;
 		}
 		//quickClear determination
